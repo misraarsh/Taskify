@@ -20,8 +20,9 @@
 
 <div class="dashdiv">
     <h1>🎉 Congratulations on successfully crossing our authentication service!</h1>
-    <button class="logoutBtn"><a href="logout">LOGOUT</a></button>
+    <a href="logout"><button class="logoutBtn">LOGOUT</button></a>
 </div>
+
 
 
 @endsection
