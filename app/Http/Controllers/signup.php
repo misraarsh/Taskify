@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use function PHPUnit\Framework\returnArgument;
 
 class Signup extends Controller
 {
@@ -62,9 +63,8 @@ class Signup extends Controller
     }
 
     public function logout(Request $request)
-    {
-        Session::forget('user');
+    {   
+         Session::forget('user');
         return redirect()->route('login');
     }
 }
-
