@@ -15,7 +15,7 @@ use App\Http\Middleware\loginCheck;
 // });
 
 Route::get('/', [Signup::class, 'showRegister'])->name('register');
-Route::post('/register', [Signup::class, 'register']);
+Route::post('/', [Signup::class, 'register']);
 
 Route::get('/login', [Signup::class, 'showLogin'])->name('login');
 Route::post('/login', [Signup::class, 'login']);
