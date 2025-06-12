@@ -28,7 +28,7 @@
             <input type="email" class="form-inputs" id="email" name="email" placeholder="Email">
             <input type="password" class="form-inputs" id="password" name="password" placeholder="Password">
             <button class="submit-btn" type="submit">Log In</button>
-            <p class="login-link">New User? <a href="/">Sign Up</a></p>
+            <p class="login-link">New User? <a href="{{ route('register') }}">Sign Up</a></p>
             <div class="errorMsg"></div>
             @if ($errors->any())
                 <div class="errorMsg">

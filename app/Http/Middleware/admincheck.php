@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class loginCheck
+class admincheck
 {
     /**
      * Handle an incoming request.
@@ -14,18 +14,11 @@ class loginCheck
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-{
-   
-    if (!session()->has('user')) {
-        return redirect()->route('login');
+    {
+        $user = session('user');
+        if (!isset($user['role']) || $user['role'] !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+        return $next($request);
     }
-
-    $user = session('user');
-    if (!isset($user['role'])) {
-        return redirect()->route('login')->with('error', 'Unauthorized access.');
-    }
-
-    return $next($request);
-}
-
 }

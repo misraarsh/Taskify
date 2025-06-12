@@ -16,7 +16,7 @@
             <input type="password" class="form-inputs" id="password" name="password" placeholder="Password">
             <input type="password" class="form-inputs" id="cpassword" name="password_confirmation" placeholder="Confirm Password">
             <button class="submit-btn" type="submit">Register</button>
-            <p class="login-link">Already Registered? <a href="/login">Log In</a></p>
+            <p class="login-link">Already Registered? <a href="{{ route('login') }}">Log In</a></p>
             <div class="errorMsg"></div>
             @if ($errors->any())
                 <div class="errorMsg">

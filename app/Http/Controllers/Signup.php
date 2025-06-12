@@ -41,26 +41,31 @@ class Signup extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $user = DB::table('users')->where('email', $request->email)->first();
+
+    if ($user && Hash::check($request->password, $user->password)) {
+        Session::put('user', [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
         ]);
 
-        $user = DB::table('users')->where('email', $request->email)->first();
-
-        if ($user && Hash::check($request->password, $user->password)) {
-            Session::put('user', [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ]);
+        if ($user->role === 'admin') {
+            return redirect()->route('adminDash')->with('success', 'Welcome Admin!');
+        } else {
             return redirect()->route('dashboard')->with('success', 'Login successful.');
-
         }
-
-        return back()->withErrors(['email' => 'Invalid credentials.']);
     }
+
+    return back()->withErrors(['email' => 'Invalid credentials.']);
+}
 
     public function logout(Request $request)
     {   
