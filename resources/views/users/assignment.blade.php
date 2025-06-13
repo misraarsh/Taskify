@@ -1,8 +1,10 @@
-@extends('admin.layouts.adminDash')
+@extends(session('user')['role'] === 'admin' ? 'admin.layouts.adminDash' : 'layouts.userDash')
+
+@section(session('user')['role'] === 'admin' ? 'mainContent' : 'content')
 
 @section('title', 'Assign Projects')
 
-@section('mainContent')
+@section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -11,7 +13,7 @@
                     <h3 class="card-title">Assign Projects to {{ $user->name }}</h3>
                     <div class="card-tools">
                         <a href="{{ route('users.index') }}" class="btn btn-default btn-sm">
-                            <i class="fas fa-arrow-left"></i> Back to Users
+                           Back to Users
                         </a>
                     </div>
                 </div>
@@ -57,7 +59,7 @@
     </div>
 </div>
 @endsection
-
+{{-- resources/views/users/assign_projects.blade.php --}}
 @push('styles')
 <style>
     .project-list {

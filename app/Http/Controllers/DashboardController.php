@@ -18,7 +18,6 @@ class DashboardController extends Controller
             return $this->userDashboard();
         }
     }
-    
     private function adminDashboard()
     {
         $totalProjects = DB::table('projects')->count();
@@ -33,7 +32,7 @@ class DashboardController extends Controller
             ->select('projects.*', 'users.name as created_by')
             ->join('users', 'projects.user_id', '=', 'users.id')
             ->orderBy('created_at', 'desc')
-            ->limit(5)
+            ->limit(6)
             ->get();
             
         $recentTasks = DB::table('tasks')
@@ -41,7 +40,7 @@ class DashboardController extends Controller
             ->join('users', 'tasks.user_id', '=', 'users.id')
             ->join('projects', 'tasks.project_id', '=', 'projects.id')
             ->orderBy('tasks.created_at', 'desc')
-            ->limit(5)
+            ->limit(6)
             ->get();
             
         return view('admin.dashboard', compact(

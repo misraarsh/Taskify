@@ -1,4 +1,6 @@
-@extends('layouts.userDash')
+@extends(session('user')['role'] === 'admin' ? 'admin.layouts.adminDash' : 'layouts.userDash')
+
+@section(session('user')['role'] === 'admin' ? 'mainContent' : 'content')
 
 @section('title', 'Create Project')
 
@@ -69,7 +71,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Hold Ctrl (or Cmd on Mac) to select multiple users</small>
+                            <small class="form-text text-muted">Hold Ctrl to select multiple users</small>
                         </div>
                         <button type="submit" class="btn btn-primary">Create Project</button>
                     </form>

@@ -22,12 +22,15 @@ Route::post('/login', [Signup::class, 'login']);
 
 Route::get('/logout', [Signup::class, 'logout'])->name('logout');
 
-
-
-
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(loginCheck::class);
+
 Route::get('/adminDashboard', [DashboardController::class, 'index'])->name('adminDash')->middleware(admincheck::class);
 
+// Profile routes for all authenticated users
+Route::middleware(loginCheck::class)->group(function () {
+    Route::get('/profile', [UserController::class, 'showProfile'])->name('profile.edit');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
+});
 Route::middleware(loginCheck::class)->group(function () {
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware(admincheck::class);
@@ -37,8 +40,6 @@ Route::middleware(loginCheck::class)->group(function () {
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware(admincheck::class);
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware(admincheck::class);
 });
-
-
 
 Route::middleware(loginCheck::class)->group(function () {
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
@@ -56,9 +57,7 @@ Route::middleware(loginCheck::class)->group(function () {
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
-
 Route::middleware([loginCheck::class, admincheck::class])->group(function () {
-
     Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
@@ -71,7 +70,6 @@ Route::middleware([loginCheck::class, admincheck::class])->group(function () {
     });
 
 });
-
 
 Route::fallback(function () {
     return "<h1> Page Not Found</h1>"; 

@@ -1,8 +1,9 @@
-@extends('admin.layouts.adminDash')
+@extends(session('user')['role'] === 'admin' ? 'admin.layouts.adminDash' : 'layouts.userDash')
 
+@section(session('user')['role'] === 'admin' ? 'mainContent' : 'content')
 @section('title', 'Create User')
 
-@section('mainContent')
+@section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">

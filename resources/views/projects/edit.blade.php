@@ -1,5 +1,6 @@
-@extends('layouts.userDash')
+@extends(session('user')['role'] === 'admin' ? 'admin.layouts.adminDash' : 'layouts.userDash')
 
+@section(session('user')['role'] === 'admin' ? 'mainContent' : 'content')
 @section('title') Edit Project - {{ $project->title }} @endsection
 
 @section('content')

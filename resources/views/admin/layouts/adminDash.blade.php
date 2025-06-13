@@ -44,7 +44,7 @@
       <div class="nav-section">
         <div class="nav-title">Settings</div>
         <div class="nav-submenu">
-          <a href="#" class="nav-link">⚙️ Profile Settings</a>
+          <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.edit') ? 'active' : '' }}">⚙️ Edit Profile</a>
         </div>
       </div>
     </div>
@@ -57,14 +57,16 @@
             <span class="user-name">{{ session('user')['name'] }}</span>
             <span class="user-role">{{ ucfirst(session('user')['role']) }}</span>
                </div>
-          <img src=" {{asset('images/adminpp.png')}} " alt="DP" />
+          <a href="{{ route('profile.edit') }}">
+            <img src=" {{asset('images/adminpp.png')}} " alt="DP" title="Edit Profile" style="cursor: pointer;" />
+          </a>
           <a href="{{ route('logout') }}"><button class="logout-button">Logout</button></a>
         </div>
     </div>
     
     <div class="main-container">
       <div class="main-content">
-        @yield('mainContent')
+        @yield('content')
       </div>
     </div>
 </body>

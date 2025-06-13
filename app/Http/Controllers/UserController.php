@@ -158,8 +158,9 @@ class UserController extends Controller
             ->orderBy('title')
             ->get();
             
-        return view('users.assign_projects', compact('user', 'projects', 'assignedProjects'));
+        return view('users.assignment', compact('user', 'projects', 'assignedProjects'));
     }
+    
     
     public function updateAssignments(Request $request, $id)
     {
@@ -188,5 +189,61 @@ class UserController extends Controller
         }
         
         return redirect()->route('users.index')->with('success', 'Project assignments updated successfully');
+    }
+    
+    public function showProfile()
+    {
+        $userId = Session::get('user')['id'];
+        $user = DB::table('users')->find($userId);
+        
+        if (!$user) {
+            return redirect()->route('dashboard')->with('error', 'User profile not found');
+        }
+        
+        return view('users.profile', compact('user'));
+    }
+    
+    public function updateProfile(Request $request)
+    {
+        $userId = Session::get('user')['id'];
+        $user = DB::table('users')->find($userId);
+        
+        if (!$user) {
+            return redirect()->route('dashboard')->with('error', 'User profile not found');
+        }
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$userId,
+        ]);
+        
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'updated_at' => now(),
+        ];
+        
+        if ($request->filled('password')) {
+            $request->validate([
+                'password' => 'min:6',
+            ]);
+            
+            $updateData['password'] = Hash::make($request->password);
+        }
+        
+        DB::table('users')
+            ->where('id', $userId)
+            ->update($updateData);
+            
+        // Update session data
+        $updatedUser = DB::table('users')->find($userId);
+        Session::put('user', [
+            'id' => $updatedUser->id,
+            'name' => $updatedUser->name,
+            'email' => $updatedUser->email,
+            'role' => $updatedUser->role
+        ]);
+            
+        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully');
     }
 }

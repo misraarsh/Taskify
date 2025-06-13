@@ -2,7 +2,7 @@
 
 @section('title','Admin Dashboard')
 
-@section('mainContent')
+@section('content')
 
 @if(session('success'))
 <div class="alert alert-success">
